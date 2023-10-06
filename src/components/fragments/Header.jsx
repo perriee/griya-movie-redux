@@ -7,7 +7,7 @@ export const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center px-14 py-6 gap-3 bg-main text-white">
+    <div className="flex justify-between items-center px-14 py-7 gap-3 bg-main text-white">
       <div
         onClick={() => navigate("/")}
         className="px-5 py-1.5 font-bold border-b border-secondary shadow shadow-secondary cursor-pointer"
