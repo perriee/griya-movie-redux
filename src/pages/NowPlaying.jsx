@@ -1,12 +1,13 @@
 import React from "react";
 import { Header } from "../components/fragments/Header";
 import { Footer } from "../components/fragments/Footer";
+import { ListNowPlaying } from "../components/fragments/ListNowPlaying";
 
-export const SearchResult = () => {
+export const NowPlaying = () => {
   return (
-    <div className="m-0">
+    <div className="mb-0">
       <Header />
-      {/* <ListMovieSpesfic label="Search Result :" /> */}
+      <ListNowPlaying />
       <Footer />
     </div>
   );

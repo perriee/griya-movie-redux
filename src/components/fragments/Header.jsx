@@ -20,13 +20,13 @@ export const Header = () => {
       </div>
       <div className="flex items-center gap-8 text-sm font-semibold">
         <div
-          onClick={() => navigate("/all")}
+          onClick={() => navigate("/nowplaying")}
           className="cursor-pointer hover:text-secondary"
         >
           Now Playing
         </div>
         <div
-          onClick={() => navigate("/all")}
+          onClick={() => navigate("/popular")}
           className="cursor-pointer hover:text-secondary"
         >
           Popular

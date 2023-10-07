@@ -4,14 +4,16 @@ import { Home } from "../pages/Home";
 import { SearchResult } from "../pages/SearchResult";
 import { Detail } from "../pages/Detail";
 import { About } from "../pages/About";
-import { AllMovies } from "../pages/AllMovies";
+import { NowPlaying } from "../pages/NowPlaying";
+import { Popular } from "../pages/Popular";
 
 export const RoutesList = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/all" element={<AllMovies />} />
+        <Route path="/nowplaying" element={<NowPlaying />} />
+        <Route path="/popular" element={<Popular />} />
         <Route path="/search" element={<SearchResult />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/about" element={<About />} />

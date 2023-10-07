@@ -6,7 +6,7 @@ export const Pagination = () => {
 
   const getItemProps = (index) => ({
     variant: active === index ? "filled" : "text",
-    color: "#000000",
+    color: "gray",
     onClick: () => setActive(index),
   });
 
