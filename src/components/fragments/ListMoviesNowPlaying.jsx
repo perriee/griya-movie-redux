@@ -9,13 +9,21 @@ export const ListMoviesNowPlaying = () => {
 
   const nowPlaying = fetchNowPLaying?.results || [];
 
+  const detailPage = (id) => {
+    navigate("/detail", {
+      state: {
+        movie_id: id
+      }
+    })
+  }
+
   const renderNowPlaying = () => {
     return nowPlaying.slice(0,10).map((value, index) => {
       return (
         <div
           key={index}
           className="flex flex-col gap-2 cursor-pointer hover:text-secondary"
-          onClick={() => navigate("/detail")}
+          onClick={() => detailPage(value.id)}
         >
           <img
             src={`https://image.tmdb.org/t/p/original/${value.backdrop_path}`}

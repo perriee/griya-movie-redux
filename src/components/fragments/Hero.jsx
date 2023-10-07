@@ -9,7 +9,7 @@ export const Hero = () => {
   const upcoming = fetchUpcoming?.results || [];
 
   const renderUpcoming = () => {
-    return upcoming.slice(0, 5).map((value, index) => {
+    return upcoming.slice(5, 10).map((value, index) => {
       return (
         <div key={index} className="flex items-center gap-4 px-14 h-[75vh] my-auto">
           <div className="w-1/2 pe-24 text-justify">

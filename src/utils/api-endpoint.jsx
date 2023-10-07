@@ -3,6 +3,6 @@ export const API_ENDPOINT = {
   GET_POPULAR: "movie/popular",
   GET_GENRE: "genre/movie/list",
   GET_SEARCH: "search/movie",
-  GET_DETAILS: "movie",
+  GET_DETAILS: "movie/",
   GET_UPCOMING: "movie/upcoming",
 };

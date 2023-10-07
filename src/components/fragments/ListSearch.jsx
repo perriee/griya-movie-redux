@@ -1,32 +1,27 @@
-import React, { useState } from "react";
-import { Pagination } from "../elements/Pagination";
-import { useDataQueryPopular } from "../../services/GetPopular";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDataQuerySearch } from "../../services/GetSearch";
 
-export const ListPopular = () => {
-  const navigate = useNavigate()
-  const [pagePopular, setPagePopular] = useState(1);
+export const ListSearch = () => {
+  const navigate = useNavigate();
+  const dataSearch = useLocation();
 
-  const { data: fetchPopular } = useDataQueryPopular({
-    page: pagePopular,
+  const { data: fetchSearch } = useDataQuerySearch({
+    query: dataSearch.state.search,
   });
 
-  const popular = fetchPopular?.results || [];
-
-  const handlePage = (newPage) => {
-    setPagePopular(newPage)
-  }
+  const searchResult = fetchSearch?.results || [];
 
   const detailPage = (id) => {
     navigate("/detail", {
       state: {
-        movie_id: id
-      }
-    })
-  }
+        movie_id: id,
+      },
+    });
+  };
 
-  const renderPopular = () => {
-    return popular.map((value, index) => {
+  const renderSearch = () => {
+    return searchResult.map((value, index) => {
       return (
         <div
           key={index}
@@ -53,7 +48,7 @@ export const ListPopular = () => {
                 />
               </svg>
               <span className="text-yellow-500 font-semibold">
-                {value.vote_average}
+                {value.vote_average.toFixed(1)}
               </span>
             </div>
           </div>
@@ -61,17 +56,24 @@ export const ListPopular = () => {
       );
     });
   };
+
   return (
     <div className="px-14 pt-6 bg-main text-white">
-      {/* <div className="font-bold text-3xl text-center">== SEARCH NOT FOUND ==</div> */}
+      {searchResult.length == 0 ? (
+        <div className="font-bold text-3xl text-center">
+          <div className="mb-3">KEYWORD : {dataSearch.state.search}</div>
+          <div>== SEARCH NOT FOUND ==</div>
+        </div>
+      ) : (
+        <div>
+          <div className="mb-6 font-semibold text-xl">
+            Search Result :{" "}
+            <span className="text-secondary">{dataSearch.state.search}</span>
+          </div>
 
-      <div className="mb-6 font-semibold text-xl">Popular</div>
-
-      <div className="grid grid-cols-5 gap-8">{renderPopular()}</div>
-
-      <div className="flex justify-center mt-10">
-        <Pagination page={handlePage} />
-      </div>
+          <div className="grid grid-cols-5 gap-8">{renderSearch()}</div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Pagination } from "../elements/Pagination";
 import { useDataQueryNowPlaying } from "../../services/GetNowPlaying";
+import { useNavigate } from "react-router-dom";
 
 export const ListNowPlaying = () => {
+  const navigate = useNavigate()
   const [pageNowPlaying, setPageNowPlaying] = useState(1);
 
   const { data: fetchNowPLaying } = useDataQueryNowPlaying({
@@ -11,12 +13,25 @@ export const ListNowPlaying = () => {
 
   const nowPlaying = fetchNowPLaying?.results || [];
 
+  const handlePage = (newPage) => {
+    setPageNowPlaying(newPage)
+  }
+
+  const detailPage = (id) => {
+    navigate("/detail", {
+      state: {
+        movie_id: id
+      }
+    })
+  }
+
   const renderNowPlaying = () => {
     return nowPlaying.map((value, index) => {
       return (
         <div
           key={index}
           className="flex flex-col gap-2 cursor-pointer hover:text-secondary"
+          onClick={() => detailPage(value.id)}
         >
           <img
             src={`https://image.tmdb.org/t/p/original/${value.backdrop_path}`}
@@ -46,6 +61,7 @@ export const ListNowPlaying = () => {
       );
     });
   };
+  
   return (
     <div className="px-14 pt-6 bg-main text-white">
       {/* <div className="font-bold text-3xl text-center">== SEARCH NOT FOUND ==</div> */}
@@ -55,7 +71,7 @@ export const ListNowPlaying = () => {
       <div className="grid grid-cols-5 gap-8">{renderNowPlaying()}</div>
 
       <div className="flex justify-center mt-10">
-        <Pagination />
+        <Pagination page={handlePage} />
       </div>
     </div>
   );

@@ -6,6 +6,14 @@ import { useNavigate } from "react-router-dom";
 export const Header = () => {
   const navigate = useNavigate();
 
+  const handleSearch = (keyword) => {
+    navigate("/search", {
+      state: {
+        search: keyword
+      }
+    })
+  };
+
   return (
     <div className="flex justify-between items-center px-14 py-7 gap-3 bg-main text-white">
       <div
@@ -16,7 +24,7 @@ export const Header = () => {
         <span> Movies</span>
       </div>
       <div>
-        <Input name="search" />
+        <Input handle={handleSearch} />
       </div>
       <div className="flex items-center gap-8 text-sm font-semibold">
         <div

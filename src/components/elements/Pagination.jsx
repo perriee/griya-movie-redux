@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { Button, IconButton } from "@material-tailwind/react";
 
-export const Pagination = () => {
+export const Pagination = ({ page }) => {
   const [active, setActive] = useState(1);
 
   const getItemProps = (index) => ({
     variant: active === index ? "filled" : "text",
     color: "gray",
-    onClick: () => setActive(index),
+    onClick: () => {
+      setActive(index);
+      page(index);
+    },
   });
 
   const next = () => {
     if (active === 5) return;
     setActive(active + 1);
+    page(active + 1);
   };
 
   const prev = () => {
     if (active === 1) return;
     setActive(active - 1);
+    page(active - 1);
   };
 
   return (

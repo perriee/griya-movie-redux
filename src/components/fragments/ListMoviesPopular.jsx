@@ -9,13 +9,21 @@ export const ListMoviesPopular = () => {
 
   const popular = fetchPopular?.results || [];
 
+  const detailPage = (id) => {
+    navigate("/detail", {
+      state: {
+        movie_id: id,
+      },
+    });
+  };
+
   const renderPopular = () => {
     return popular.slice(10, 20).map((value, index) => {
       return (
         <div
           key={index}
           className="flex flex-col gap-2 cursor-pointer hover:text-secondary"
-          onClick={() => navigate("/detail")}
+          onClick={() => detailPage(value.id)}
         >
           <img
             src={`https://image.tmdb.org/t/p/original/${value.backdrop_path}`}
