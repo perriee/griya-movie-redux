@@ -6,7 +6,7 @@ export const ListSearch = () => {
   const navigate = useNavigate();
   const dataSearch = useLocation();
 
-  const { data: fetchSearch } = useDataQuerySearch({
+  const { data: fetchSearch, isSuccess } = useDataQuerySearch({
     query: dataSearch.state.search,
   });
 
@@ -59,7 +59,7 @@ export const ListSearch = () => {
 
   return (
     <div className="px-14 pt-6 bg-main text-white">
-      {searchResult.length == 0 ? (
+      {isSuccess && searchResult.length == 0 ? (
         <div className="font-bold text-3xl text-center">
           <div className="mb-3">KEYWORD : {dataSearch.state.search}</div>
           <div>== SEARCH NOT FOUND ==</div>
