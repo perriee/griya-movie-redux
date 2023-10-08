@@ -10,7 +10,7 @@ export const About = () => {
   return (
     <div>
       <Header />
-      <div className="px-14 py-10 bg-main text-white text-center">
+      <div className="px-14 pt-10 pb-36 bg-main text-white text-center">
         <div>
           <img
             src={profile}
