@@ -1,23 +1,23 @@
-import React from "react";
-import { Button } from "../elements/Button";
-import { Input } from "../elements/Input";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { Button } from '../elements/Button';
+import { Input } from '../elements/Input';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const navigate = useNavigate();
 
   const handleSearch = (keyword) => {
-    navigate("/search", {
+    navigate('/search', {
       state: {
-        search: keyword
-      }
-    })
+        search: keyword,
+      },
+    });
   };
 
   return (
     <div className="flex justify-between items-center px-14 py-7 gap-3 bg-main text-white">
       <div
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
         className="px-5 py-1.5 font-bold border-b border-secondary shadow shadow-secondary cursor-pointer"
       >
         <span className="text-secondary">Angga's</span>
@@ -28,19 +28,19 @@ export const Header = () => {
       </div>
       <div className="flex items-center gap-8 text-sm font-semibold">
         <div
-          onClick={() => navigate("/nowplaying")}
+          onClick={() => navigate('/nowplaying')}
           className="cursor-pointer hover:text-secondary"
         >
           Now Playing
         </div>
         <div
-          onClick={() => navigate("/popular")}
+          onClick={() => navigate('/popular')}
           className="cursor-pointer hover:text-secondary"
         >
           Popular
         </div>
         <div
-          onClick={() => navigate("/about")}
+          onClick={() => navigate('/about')}
           className="cursor-pointer hover:text-secondary"
         >
           About Me
