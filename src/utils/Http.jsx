@@ -1,4 +1,9 @@
 import axios from "axios";
+import { CookieStorage, CookiesKeys } from "./cookies";
+
+const getToken = CookieStorage.get(CookiesKeys.AuthToken)
+  ? CookieStorage.get(CookiesKeys.AuthToken)
+  : "";
 
 const http = axios.create({
   baseURL: process.env.REACT_APP_SERVER,
@@ -9,4 +14,21 @@ const http = axios.create({
   },
 });
 
-export default http;
+const httpbinar = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_BINAR,
+  timeout: 30000,
+  headers: {
+    accept: "application/json",
+  },
+});
+
+httpbinar.interceptors.request.use((config) => {
+  config.headers = {
+    ...config.headers,
+    Authorization: `Bearer ${getToken ? getToken : ""}`,
+  };
+
+  return config;
+});
+
+export { http, httpbinar };

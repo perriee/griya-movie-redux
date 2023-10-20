@@ -7,7 +7,7 @@ export const ListMoviesPopular = () => {
 
   const { data: fetchPopular } = useDataQueryPopular();
 
-  const popular = fetchPopular?.results || [];
+  const popular = fetchPopular?.data || [];
 
   const detailPage = (id) => {
     navigate("/detail", {

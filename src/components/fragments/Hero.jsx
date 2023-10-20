@@ -8,7 +8,7 @@ export const Hero = () => {
   const { data: fetchUpcoming } = useDataQueryUpcoming();
   const upcoming = fetchUpcoming?.results || [];
 
-  const [movieId, setMovieId] = useState();
+  const [movieId, setMovieId] = useState("");
   const { data: fetchTrailer } = useDataQueryTrailers({
     movie_id: movieId,
     language: "en-US",
@@ -17,16 +17,16 @@ export const Hero = () => {
 
   const trailerMovie = () => {
     const result = trailer.filter((value) => {
-      if(value.type === "Trailer"){
-        return value.key
+      if (value.type === "Trailer") {
+        return value.key;
       }
-    })
+    });
 
-    return result[0]?.key
-  }
-  
-  if (movieId !== undefined && trailerMovie() != undefined) {
-    window.open(`https://www.youtube.com/watch?v=${trailerMovie()}`, '_blank');
+    return result[0]?.key;
+  };
+
+  if (movieId !== undefined && trailerMovie() !== undefined) {
+    window.open(`https://www.youtube.com/watch?v=${trailerMovie()}`, "_blank");
   }
 
   const renderUpcoming = () => {

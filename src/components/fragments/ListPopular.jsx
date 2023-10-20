@@ -11,7 +11,7 @@ export const ListPopular = () => {
     page: pagePopular,
   });
 
-  const popular = fetchPopular?.results || [];
+  const popular = fetchPopular?.data || [];
 
   const handlePage = (newPage) => {
     setPagePopular(newPage)
@@ -24,6 +24,7 @@ export const ListPopular = () => {
       }
     })
   }
+
 
   const renderPopular = () => {
     return popular.map((value, index) => {
