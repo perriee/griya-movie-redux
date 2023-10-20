@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import http from "../utils/Http";
+import { http } from "../utils/Http";
 
 const fetchDataTrailers = async ({ queryKey }) => {
   const [{ movie_id, language }] = queryKey;

@@ -5,7 +5,6 @@ import { ListMoviesNowPlaying } from "../components/fragments/ListMoviesNowPlayi
 import { ListMoviesPopular } from "../components/fragments/ListMoviesPopular";
 
 export const Home = () => {
-
   return (
     <div className="m-0">
       <Header />

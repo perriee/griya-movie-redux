@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import http from "../utils/Http";
+import { httpbinar } from "../utils/Http";
 import { API_ENDPOINT } from "../utils/api-endpoint";
 
 const fetchDataPopular = async ({ queryKey }) => {
   const [_key, _params] = queryKey;
 
-  const { data } = await http.get(_key, { params: _params });
+  const { data } = await httpbinar.get(_key, { params: _params });
   return data;
 };
 

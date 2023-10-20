@@ -46,16 +46,16 @@ export const Detail = () => {
         <div>
           <div className="flex items-center relative px-14 pt-6 bg-main">
             <img
-              src={`https://image.tmdb.org/t/p/original/${fetchDetails.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original/${fetchDetails.data.backdrop_path}`}
               alt=""
               className="w-full h-[90vh] object-cover rounded-xl brightness-50"
             />
             <div className="w-1/2 flex flex-col absolute px-12 py-4 text-white">
               <div className="-mt-6 text-4xl 2xl:text-5xl font-bold mb-2 2xl:mb-3">
-                {fetchDetails.title}
+                {fetchDetails.data.title}
               </div>
               <div className="flex gap-4 text-sm 2xl:text-base font-medium mb-7">
-                {fetchDetails.genres.map((genre, index) => {
+                {fetchDetails.data.genres.map((genre, index) => {
                   return (
                     <div
                       key={index}
@@ -67,14 +67,14 @@ export const Detail = () => {
                 })}
               </div>
               <div className="flex gap-4 text-sm 2xl:text-base font-medium mb-1 2xl:mb-2">
-                <div>{dateFormat(fetchDetails.release_date)}</div>
+                <div>{dateFormat(fetchDetails.data.release_date)}</div>
                 <div>|</div>
-                <div>{fetchDetails.adult ? "21+" : "18+"}</div>
+                <div>{fetchDetails.data.adult ? "21+" : "18+"}</div>
                 <div>|</div>
-                <div>{fetchDetails.vote_average.toFixed(1)} / 10.0</div>
+                <div>{fetchDetails.data.vote_average.toFixed(1)} / 10.0</div>
               </div>
               <div className="text-sm 2xl:text-base font-medium">
-                {fetchDetails.overview}
+                {fetchDetails.data.overview}
               </div>
             </div>
           </div>
@@ -82,35 +82,35 @@ export const Detail = () => {
           <div className="px-14 pt-6 bg-main">
             <div className="flex gap-10 px-10 py-6 bg-white/20 backdrop-blur rounded-xl text-white">
               <img
-                src={`https://image.tmdb.org/t/p/original/${fetchDetails.poster_path}`}
+                src={`https://image.tmdb.org/t/p/original/${fetchDetails.data.poster_path}`}
                 alt=""
                 className="w-36 rounded"
               />
               <div className="flex flex-col gap-3 py-2 text-sm">
                 <div className="flex">
                   <div className="w-[110px]">Title</div>
-                  <div>: {fetchDetails.title}</div>
+                  <div>: {fetchDetails.data.title}</div>
                 </div>
                 <div className="flex">
                   <div className="w-[110px]">Genre</div>
                   <div>
                     :{" "}
-                    {fetchDetails.genres.map((genre) => {
+                    {fetchDetails.data.genres.map((genre) => {
                       return `${genre.name} | `;
                     })}
                   </div>
                 </div>
                 <div className="flex">
                   <div className="w-[110px]">Release date</div>
-                  <div>: {dateFormat(fetchDetails.release_date)}</div>
+                  <div>: {dateFormat(fetchDetails.data.release_date)}</div>
                 </div>
                 <div className="flex">
                   <div className="w-[110px]">Rating</div>
-                  <div>: {fetchDetails.vote_average.toFixed(1)} / 10.0</div>
+                  <div>: {fetchDetails.data.vote_average.toFixed(1)} / 10.0</div>
                 </div>
                 <div className="flex">
                   <div className="w-[110px]">Description</div>
-                  <div className="w-3/5 ">: {fetchDetails.overview}</div>
+                  <div className="w-3/5 ">: {fetchDetails.data.overview}</div>
                 </div>
               </div>
             </div>
