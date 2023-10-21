@@ -30,7 +30,7 @@ export const Header = () => {
         onClick={() => navigate("/home")}
         className="px-5 py-1.5 font-bold border-b border-secondary shadow shadow-secondary cursor-pointer"
       >
-        <span className="text-secondary">Angga's</span>
+        <span className="text-secondary">HFG's</span>
         <span> Movies</span>
       </div>
       <div>
@@ -48,12 +48,6 @@ export const Header = () => {
           className="cursor-pointer hover:text-secondary"
         >
           Popular
-        </div>
-        <div
-          onClick={() => navigate("/about")}
-          className="cursor-pointer hover:text-secondary"
-        >
-          About Me
         </div>
         <div className="flex items-center gap-2 border border-secondary rounded-full pe-3">
           <img src={ava} alt="" className="w-8 h-8 rounded-full object-cover" />
