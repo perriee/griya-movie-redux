@@ -21,7 +21,6 @@ export const RoutesList = () => {
         <Route path="/popular" element={<Popular />} />
         <Route path="/search" element={<SearchResult />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );

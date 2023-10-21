@@ -30,7 +30,7 @@ export const LoginPage = () => {
     setShowPassword(!ShowPassword);
   };
 
-  const { mutate: postLogin, data: errMsg, status: stLogin } = useLogin();
+  const { mutate: postLogin, data: errMsg, status } = useLogin();
 
   const handleSubmit = () => {
     postLogin({
@@ -39,11 +39,7 @@ export const LoginPage = () => {
     });
   };
 
-  const {
-    mutate: postGoogle,
-    data: errMsgGoogle,
-    status: stGoogle,
-  } = useGoogleAuth();
+  const { mutate: postGoogle } = useGoogleAuth();
 
   const handleGoogle = useGoogleLogin({
     onSuccess: (credentialResponse) => {
@@ -68,19 +64,8 @@ export const LoginPage = () => {
         progress: undefined,
         theme: "light",
       });
-    } else if (errMsgGoogle) {
-      toast.error("Login google failed!", {
-        position: "top-right",
-        autoClose: 3500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     }
-  }, [stLogin === "success", stGoogle === "success"]);
+  }, [status === "success"]);
 
   const getToken = CookieStorage.get(CookiesKeys.RegisterToken);
   useEffect(() => {
