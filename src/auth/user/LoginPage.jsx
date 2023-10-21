@@ -185,12 +185,12 @@ export const LoginPage = () => {
             </button>
             <span className="flex gap-2">
               Don't have an account?{" "}
-              <div
+              <a
                 href="/register"
                 className="text-red-600 hover:text-red-800 font-semibold"
               >
                 Sign Up
-              </div>
+              </a>
             </span>
             <div className="flex items-center gap-4">
               <hr className="w-full bg-white" />
