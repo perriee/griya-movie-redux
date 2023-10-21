@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import google from "../../assets/img/google.png";
+import facebook from "../../assets/img/facebook.png";
 import batb from "../../assets/img/batb.jpg";
 import { useLogin } from "../../services/LoginUser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { CookieStorage, CookiesKeys } from "../../utils/cookies";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleAuth } from "../../services/GoogleAuth";
 
 export const LoginPage = () => {
   const [Email, setEmail] = useState("");
@@ -27,7 +30,7 @@ export const LoginPage = () => {
     setShowPassword(!ShowPassword);
   };
 
-  const { mutate: postLogin, data: errMsg, status } = useLogin();
+  const { mutate: postLogin, data: errMsg, status: stLogin } = useLogin();
 
   const handleSubmit = () => {
     postLogin({
@@ -35,6 +38,23 @@ export const LoginPage = () => {
       password: Password,
     });
   };
+
+  const {
+    mutate: postGoogle,
+    data: errMsgGoogle,
+    status: stGoogle,
+  } = useGoogleAuth();
+
+  const handleGoogle = useGoogleLogin({
+    onSuccess: (credentialResponse) => {
+      postGoogle({
+        access_token: credentialResponse.access_token,
+      });
+    },
+    onError: () => {
+      console.log("Login Failed");
+    },
+  });
 
   useEffect(() => {
     if (errMsg) {
@@ -48,8 +68,19 @@ export const LoginPage = () => {
         progress: undefined,
         theme: "light",
       });
+    } else if (errMsgGoogle) {
+      toast.error("Login google failed!", {
+        position: "top-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-  }, [status === "success"]);
+  }, [stLogin === "success", stGoogle === "success"]);
 
   const getToken = CookieStorage.get(CookiesKeys.RegisterToken);
   useEffect(() => {
@@ -70,10 +101,6 @@ export const LoginPage = () => {
       CookieStorage.remove(CookiesKeys.RegisterToken);
     }, 3600);
   }, [getToken]);
-
-  // const handleGoogle = () => {
-
-  // }
 
   return (
     <div className="flex bg-slate-700 items-center justify-center min-h-screen text-slate-200">
@@ -171,29 +198,39 @@ export const LoginPage = () => {
             >
               Sign In
             </button>
-            <span>
+            <span className="flex gap-2">
               Don't have an account?{" "}
-              <a
+              <div
                 href="/register"
                 className="text-red-600 hover:text-red-800 font-semibold"
               >
                 Sign Up
-              </a>
+              </div>
             </span>
             <div className="flex items-center gap-4">
               <hr className="w-full bg-white" />
               <div>OR</div>
               <hr className="w-full bg-white" />
             </div>
-            <div className="w-full cursor-pointer">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
+            <div className="flex flex-row gap-5 items-center justify-center">
+              <div className="flex items-center justify-center shadow-lg bg-slate-800 hover:bg-slate-900 border-2 border-inherit rounded-2xl w-[50px] h-[50px] cursor-pointer">
+                <div onClick={() => handleGoogle()}>
+                  <img
+                    className="w-[20px] h-[20px]"
+                    src={google}
+                    alt="google"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center justify-center shadow-lg bg-slate-800 hover:bg-slate-900 border-2 border-inherit rounded-2xl w-[50px] h-[50px] cursor-pointer">
+                <div>
+                  <img
+                    className="w-[28px] h-[28px]"
+                    src={facebook}
+                    alt="facebook"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
