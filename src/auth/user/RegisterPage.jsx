@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import batb from "../../assets/img/batb.jpg";
-import { ToastContainer, toast } from "react-toastify";
-import { useRegister } from "../../services/RegisterUser";
+import React, { useEffect, useState } from 'react';
+import batb from '../../assets/img/batb.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import { useRegister } from '../../services/RegisterUser';
 
 export const RegisterPage = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInput = (e) => {
     if (e) {
-      if (e.target.id === "email") setEmail(e.target.value);
-      if (e.target.id === "username") setUsername(e.target.value);
-      if (e.target.id === "password") setPassword(e.target.value);
+      if (e.target.id === 'email') setEmail(e.target.value);
+      if (e.target.id === 'username') setUsername(e.target.value);
+      if (e.target.id === 'password') setPassword(e.target.value);
     }
   };
 
@@ -34,17 +34,17 @@ export const RegisterPage = () => {
   useEffect(() => {
     if (errMsg) {
       toast.error(errMsg, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 3500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
-  }, [status === "success"]);
+  }, [status === 'success']);
 
   return (
     <div className="flex bg-slate-700 items-center justify-center min-h-screen text-slate-200">
@@ -66,9 +66,7 @@ export const RegisterPage = () => {
         </div>
         <div className="flex flex-col bg-slate-800 w-2/3 p-10 gap-4">
           <div className="flex flex-col gap-2 mb-2">
-            <div className="text-2xl font-semibold">
-              Welcome fellas! Let's go register
-            </div>
+            <div className="text-2xl font-semibold">Welcome fellas! Let's go register</div>
             <div>Sign up to your account</div>
           </div>
           <div className="flex flex-col gap-2">
@@ -95,15 +93,12 @@ export const RegisterPage = () => {
             <span className="text-slate-200">Password</span>
             <input
               id="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Masukkan Password"
               className="text-slate-200 px-3 py-2 bg-slate-800 ring-1 ring-slate-400 placeholder-slate-600 rounded-md outline-none focus:ring-2 focus:ring-red-600"
               onChange={handleInput}
             />
-            <button
-              className="absolute top-10 right-2"
-              onClick={togglePasswordVisibility}
-            >
+            <button className="absolute top-10 right-2" onClick={togglePasswordVisibility}>
               {showPassword ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -142,16 +137,16 @@ export const RegisterPage = () => {
               )}
             </button>
           </div>
-          <button onClick={handleSubmit} className="bg-red-600 text-slate-200 font-semibold px-3 py-2 w-full rounded-md mt-3 hover:bg-red-800">
+          <button
+            onClick={handleSubmit}
+            className="bg-red-600 text-slate-200 font-semibold px-3 py-2 w-full rounded-md mt-3 hover:bg-red-800"
+          >
             Sign Up
           </button>
           <div>
             <span className="text-slate-200">
-              Have an account?{" "}
-              <a
-                href="/login"
-                className="text-red-600 hover:text-red-800 font-semibold"
-              >
+              Have an account?{' '}
+              <a href="/login" className="text-red-600 hover:text-red-800 font-semibold">
                 Sign In
               </a>
             </span>

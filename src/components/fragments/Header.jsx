@@ -1,15 +1,18 @@
-import React from "react";
-import { Input } from "../elements/Input";
-import { useNavigate } from "react-router-dom";
-import ava from "../../assets/img/ava.jpg";
-import { useDataMe } from "../../services/GetMe";
-import { CookieStorage, CookiesKeys } from "../../utils/cookies";
+import React from 'react';
+import { Input } from '../elements/Input';
+import { useNavigate } from 'react-router-dom';
+import ava from '../../assets/img/ava.jpg';
+import { useDataMe } from '../../services/GetMe';
+import { useDispatch } from 'react-redux';
+import { LogoutUserAction } from '../../redux/actions/auth/authLoginAction';
 
 export const Header = () => {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const handleSearch = (keyword) => {
-    navigate("/search", {
+    navigate('/search', {
       state: {
         search: keyword,
       },
@@ -20,14 +23,13 @@ export const Header = () => {
   const dataMe = isSuccess ? fetchMe : {};
 
   const handleLogout = () => {
-    CookieStorage.remove(CookiesKeys.AuthToken);
-    window.location.href = "/";
+    dispatch(LogoutUserAction());
   };
 
   return (
     <div className="flex justify-between items-center px-14 py-7 gap-3 bg-main text-white">
       <div
-        onClick={() => navigate("/home")}
+        onClick={() => navigate('/home')}
         className="px-5 py-1.5 font-bold border-b border-secondary shadow shadow-secondary cursor-pointer"
       >
         <span className="text-secondary">HFG's</span>
@@ -38,15 +40,12 @@ export const Header = () => {
       </div>
       <div className="flex items-center gap-8 text-sm font-semibold">
         <div
-          onClick={() => navigate("/nowplaying")}
+          onClick={() => navigate('/nowplaying')}
           className="cursor-pointer hover:text-secondary"
         >
           Now Playing
         </div>
-        <div
-          onClick={() => navigate("/popular")}
-          className="cursor-pointer hover:text-secondary"
-        >
+        <div onClick={() => navigate('/popular')} className="cursor-pointer hover:text-secondary">
           Popular
         </div>
         <div className="flex items-center gap-2 border border-secondary rounded-full pe-3">

@@ -1,26 +1,36 @@
-import React, { useState } from "react";
-import google from "../../assets/img/google.png";
-import facebook from "../../assets/img/facebook.png";
-import batb from "../../assets/img/batb.jpg";
-import { useLogin } from "../../services/LoginUser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
-import { CookieStorage, CookiesKeys } from "../../utils/cookies";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useGoogleAuth } from "../../services/GoogleAuth";
+import React, { useState } from 'react';
+import google from '../../assets/img/google.png';
+import facebook from '../../assets/img/facebook.png';
+import batb from '../../assets/img/batb.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { CookieStorage, CookiesKeys } from '../../utils/cookies';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleAuth } from '../../services/GoogleAuth';
+import { LoginUserAction } from '../../redux/actions/auth/authLoginAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginPage = () => {
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
   const [ShowPassword, setShowPassword] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const data = useSelector((state) => state.authLoginStore);
+
+  console.log('store loginAuth:', data);
 
   const handleInput = (e) => {
     if (e) {
-      if (e.target.id === "email") {
+      if (e.target.id === 'email') {
         setEmail(e.target.value);
       }
-      if (e.target.id === "password") {
+      if (e.target.id === 'password') {
         setPassword(e.target.value);
       }
     }
@@ -30,14 +40,20 @@ export const LoginPage = () => {
     setShowPassword(!ShowPassword);
   };
 
-  const { mutate: postLogin, data: errMsg, status } = useLogin();
-
   const handleSubmit = () => {
-    postLogin({
-      email: Email,
-      password: Password,
-    });
+    dispatch(
+      LoginUserAction({
+        email: Email,
+        password: Password,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (data.isLogin === true) {
+      navigate('/home', { replace: false });
+    }
+  }, [dispatch(LoginUserAction)]);
 
   const { mutate: postGoogle } = useGoogleAuth();
 
@@ -48,37 +64,38 @@ export const LoginPage = () => {
       });
     },
     onError: () => {
-      console.log("Login Failed");
+      console.log('Login Failed');
     },
   });
 
-  useEffect(() => {
-    if (errMsg) {
-      toast.error(errMsg, {
-        position: "top-right",
-        autoClose: 3500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }, [status === "success"]);
+  // useEffect(() => {
+  //   if (errMsg) {
+  //     toast.error(errMsg, {
+  //       position: 'top-right',
+  //       autoClose: 3500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //     });
+  //   }
+  // }, [status === 'success']);
 
   const getToken = CookieStorage.get(CookiesKeys.RegisterToken);
+
   useEffect(() => {
     if (getToken) {
-      toast.success("Register Berhasil, Silahkan Login!", {
-        position: "top-right",
+      toast.success('Register Berhasil, Silahkan Login!', {
+        position: 'top-right',
         autoClose: 3500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
 
@@ -86,6 +103,12 @@ export const LoginPage = () => {
       CookieStorage.remove(CookiesKeys.RegisterToken);
     }, 3600);
   }, [getToken]);
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
 
   return (
     <div className="flex bg-slate-700 items-center justify-center min-h-screen text-slate-200">
@@ -118,6 +141,7 @@ export const LoginPage = () => {
               className="text-slate-200 px-3 py-2 bg-slate-800 ring-1 ring-slate-400 placeholder-slate-600 rounded-md outline-none focus:ring-2 focus:ring-red-600"
               placeholder="You@Example.com"
               type="text"
+              onKeyDown={handleKeyPress}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -128,12 +152,10 @@ export const LoginPage = () => {
                 id="password"
                 className="text-slate-200 px-3 py-2 bg-slate-800 ring-1 ring-slate-400 placeholder-slate-600 rounded-md outline-none focus:ring-2 focus:ring-red-600 w-full"
                 placeholder="Password here..."
-                type={ShowPassword ? "text" : "password"}
+                type={ShowPassword ? 'text' : 'password'}
+                onKeyDown={handleKeyPress}
               />
-              <div
-                className="absolute cursor-pointer right-2"
-                onClick={shwpswd}
-              >
+              <div className="absolute cursor-pointer right-2" onClick={shwpswd}>
                 {ShowPassword ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -184,11 +206,8 @@ export const LoginPage = () => {
               Sign In
             </button>
             <span className="flex gap-2">
-              Don't have an account?{" "}
-              <a
-                href="/register"
-                className="text-red-600 hover:text-red-800 font-semibold"
-              >
+              Don't have an account?{' '}
+              <a href="/register" className="text-red-600 hover:text-red-800 font-semibold">
                 Sign Up
               </a>
             </span>
@@ -200,20 +219,12 @@ export const LoginPage = () => {
             <div className="flex flex-row gap-5 items-center justify-center">
               <div className="flex items-center justify-center shadow-lg bg-slate-800 hover:bg-slate-900 border-2 border-inherit rounded-2xl w-[50px] h-[50px] cursor-pointer">
                 <div onClick={() => handleGoogle()}>
-                  <img
-                    className="w-[20px] h-[20px]"
-                    src={google}
-                    alt="google"
-                  />
+                  <img className="w-[20px] h-[20px]" src={google} alt="google" />
                 </div>
               </div>
               <div className="flex items-center justify-center shadow-lg bg-slate-800 hover:bg-slate-900 border-2 border-inherit rounded-2xl w-[50px] h-[50px] cursor-pointer">
                 <div>
-                  <img
-                    className="w-[28px] h-[28px]"
-                    src={facebook}
-                    alt="facebook"
-                  />
+                  <img className="w-[28px] h-[28px]" src={facebook} alt="facebook" />
                 </div>
               </div>
             </div>
