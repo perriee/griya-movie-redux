@@ -1,21 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "../elements/Pagination";
 import { useDataQueryPopular } from "../../services/GetPopular";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { popularMoviesAction } from "../../redux/actions/movie/popularAction";
 
 export const ListPopular = () => {
   const navigate = useNavigate()
-  const [pagePopular, setPagePopular] = useState(1);
-
-  const { data: fetchPopular } = useDataQueryPopular({
-    page: pagePopular,
-  });
-
-  const popular = fetchPopular?.data || [];
-
-  const handlePage = (newPage) => {
-    setPagePopular(newPage)
-  }
 
   const detailPage = (id) => {
     navigate("/detail", {
@@ -25,9 +16,22 @@ export const ListPopular = () => {
     })
   }
 
+  const dataPopularMovies = useSelector((state) => state.popularMoviesStore);
+  console.log('popularMoviesRedux:', dataPopularMovies.popularMoviesState);
+
+  const dispatch = useDispatch();
+
+  const getPopularMovies = () => {
+    dispatch(popularMoviesAction());
+  };
+
+  useEffect(() => {
+    getPopularMovies();
+  }, [dispatch]);
+
 
   const renderPopular = () => {
-    return popular.map((value, index) => {
+    return dataPopularMovies?.popularMoviesState.map((value, index) => {
       return (
         <div
           key={index}
@@ -64,15 +68,8 @@ export const ListPopular = () => {
   };
   return (
     <div className="px-14 pt-6 bg-main text-white">
-      {/* <div className="font-bold text-3xl text-center">== SEARCH NOT FOUND ==</div> */}
-
       <div className="mb-6 font-semibold text-xl">Popular</div>
-
       <div className="grid grid-cols-5 gap-8">{renderPopular()}</div>
-
-      <div className="flex justify-center mt-10">
-        <Pagination page={handlePage} />
-      </div>
     </div>
   );
 };

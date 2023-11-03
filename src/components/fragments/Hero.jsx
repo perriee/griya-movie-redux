@@ -9,27 +9,6 @@ export const Hero = () => {
   const upcoming = fetchUpcoming?.results || [];
 
   const [movieId, setMovieId] = useState('');
-  
-  // const { data: fetchTrailer } = useDataQueryTrailers({
-  //   movie_id: movieId,
-  //   language: "en-US",
-  // });
-
-  // const trailer = fetchTrailer?.results || [];
-
-  // const trailerMovie = () => {
-  //   const result = trailer.filter((value) => {
-  //     if (value.type === "Trailer") {
-  //       return value.key;
-  //     }
-  //   });
-
-  //   return result[0]?.key;
-  // };
-
-  // if (movieId !== undefined && trailerMovie() !== undefined) {
-  //   window.open(`https://www.youtube.com/watch?v=${trailerMovie()}`, "_blank");
-  // }
 
   const renderUpcoming = () => {
     return upcoming.slice(5, 10).map((value, index) => {

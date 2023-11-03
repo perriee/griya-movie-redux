@@ -10,7 +10,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useGoogleAuth } from '../../services/GoogleAuth';
 import { LoginUserAction } from '../../redux/actions/auth/authLoginAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { setIsLoggedIn, setToken } from '../../redux/reducers/auth/authLoginSlice';
 
 export const LoginPage = () => {
   const [Email, setEmail] = useState('');
@@ -19,11 +19,9 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const dataLoginUser = useSelector((state) => state.authLoginStore);
 
-  const data = useSelector((state) => state.authLoginStore);
-
-  console.log('store loginAuth:', data);
+  console.log('store loginAuth:', dataLoginUser);
 
   const handleInput = (e) => {
     if (e) {
@@ -49,12 +47,6 @@ export const LoginPage = () => {
     );
   };
 
-  useEffect(() => {
-    if (data.isLogin === true) {
-      navigate('/home', { replace: false });
-    }
-  }, [dispatch(LoginUserAction)]);
-
   const { mutate: postGoogle } = useGoogleAuth();
 
   const handleGoogle = useGoogleLogin({
@@ -62,26 +54,13 @@ export const LoginPage = () => {
       postGoogle({
         access_token: credentialResponse.access_token,
       });
+      dispatch(setToken(credentialResponse.access_token))
+      dispatch(setIsLoggedIn(true))
     },
     onError: () => {
       console.log('Login Failed');
     },
   });
-
-  // useEffect(() => {
-  //   if (errMsg) {
-  //     toast.error(errMsg, {
-  //       position: 'top-right',
-  //       autoClose: 3500,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: 'light',
-  //     });
-  //   }
-  // }, [status === 'success']);
 
   const getToken = CookieStorage.get(CookiesKeys.RegisterToken);
 

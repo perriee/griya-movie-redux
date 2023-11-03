@@ -1,3 +1,4 @@
+import { showErrorToast } from '../../../helper/toastHelper';
 import { reduxLoginUser } from '../../../services/LoginUser';
 import { CookieStorage, CookiesKeys } from '../../../utils/cookies';
 import { setIsLoggedIn, setToken } from '../../reducers/auth/authLoginSlice';
@@ -9,9 +10,11 @@ export const LoginUserAction = (input) => (dispatch) => {
       CookieStorage.set(CookiesKeys.AuthToken, result.data.data.token);
       dispatch(setToken(result.data.data.token));
       dispatch(setIsLoggedIn(true));
+      window.location.href = '/home';
     })
     .catch((err) => {
-      console.error('reduxLoginUser -> error:', err);
+      console.error('reduxLoginUser -> error:', err.response.data.message);
+      showErrorToast(err.response.data.message);
     });
 };
 

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CookieStorage, CookiesKeys } from "../../../utils/cookies";
 
 const initialState = {
-  token: null,
+  token: CookieStorage.get(CookiesKeys.AuthToken) ? CookieStorage.get(CookiesKeys.AuthToken) : null,
   isLogin: false,
   user: '',
 };

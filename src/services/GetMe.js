@@ -2,6 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { httpbinar } from "../utils/Http";
 import { API_ENDPOINT } from "../utils/api-endpoint";
 
+// using redux
+export const reduxGetMe = async () => {
+  return await httpbinar.get(API_ENDPOINT.GET_ME);
+};
+
 const fetchDataQueryMe = async () => {
   return await httpbinar
     .get(API_ENDPOINT.GET_ME)

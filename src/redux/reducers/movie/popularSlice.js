@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   popularMoviesState: [],
+  searchPopularMoviesState: [],
+  detailPopularMoviesState: [],
 };
 
 const getPopularMoviesSlice = createSlice({
@@ -12,9 +14,17 @@ const getPopularMoviesSlice = createSlice({
       state.popularMoviesState = action.payload;
       console.log('setPopularMoviesReducer:', action.payload);
     },
+    setSearchPopularMoviesReducer: (state, action) => {
+      state.searchPopularMoviesState = action.payload;
+      console.log('setSearchPopularMoviesReducer:', action.payload);
+    },
+    setDetailPopularMoviesReducer: (state, action) => {
+      state.detailPopularMoviesState = action.payload;
+      console.log('setDetailPopularMoviesReducer:', action.payload);
+    },
   },
 });
 
-export const { setPopularMoviesReducer } = getPopularMoviesSlice.actions;
+export const { setPopularMoviesReducer, setSearchPopularMoviesReducer, setDetailPopularMoviesReducer  } = getPopularMoviesSlice.actions;
 
 export default getPopularMoviesSlice.reducer;

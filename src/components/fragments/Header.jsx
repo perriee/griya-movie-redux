@@ -1,10 +1,9 @@
 import React from 'react';
 import { Input } from '../elements/Input';
 import { useNavigate } from 'react-router-dom';
-import ava from '../../assets/img/ava.jpg';
-import { useDataMe } from '../../services/GetMe';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LogoutUserAction } from '../../redux/actions/auth/authLoginAction';
+import { Button, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -19,8 +18,13 @@ export const Header = () => {
     });
   };
 
-  const { data: fetchMe, isSuccess } = useDataMe();
-  const dataMe = isSuccess ? fetchMe : {};
+  const dataUser = useSelector((state) => state.authGetMeStore);
+  const nameUser = dataUser.dataMe.name;
+  const emailUser = dataUser.dataMe.email;
+
+  console.log('dataUser', dataUser.dataMe);
+  console.log('dataUserName', nameUser);
+  console.log('emailUser', emailUser);
 
   const handleLogout = () => {
     dispatch(LogoutUserAction());
@@ -30,10 +34,11 @@ export const Header = () => {
     <div className="flex justify-between items-center px-14 py-7 gap-3 bg-main text-white">
       <div
         onClick={() => navigate('/home')}
-        className="px-5 py-1.5 font-bold border-b border-secondary shadow shadow-secondary cursor-pointer"
+        className="px-5 py-1.5 font-bold text-2xl cursor-pointer"
       >
-        <span className="text-secondary">HFG's</span>
-        <span> Movies</span>
+        <span>
+          <span className="text-secondary">Griya</span> Movies
+        </span>
       </div>
       <div>
         <Input handle={handleSearch} />
@@ -48,10 +53,19 @@ export const Header = () => {
         <div onClick={() => navigate('/popular')} className="cursor-pointer hover:text-secondary">
           Popular
         </div>
-        <div className="flex items-center gap-2 border border-secondary rounded-full pe-3">
-          <img src={ava} alt="" className="w-8 h-8 rounded-full object-cover" />
-          <div className="text-secondary">{dataMe.name}</div>
-        </div>
+
+        <Popover>
+          <PopoverHandler>
+            <Button className="capitalize text-sm border-2 border-red-500 py-1.5 px-4">
+              Helo, {nameUser}.
+            </Button>
+          </PopoverHandler>
+          <PopoverContent>
+            <div className="text-md font-semibold">{nameUser}</div>
+            <div className="text-md">{emailUser}</div>
+          </PopoverContent>
+        </Popover>
+
         <button
           onClick={handleLogout}
           className="py-1.5 w-[85px] text-white hover:text-red-500 text-sm font-semibold bg-red-500 border border-red-500 rounded-lg hover:bg-main hover:shadow-md hover:shadow-red-500"

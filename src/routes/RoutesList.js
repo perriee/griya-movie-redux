@@ -24,10 +24,26 @@ export const RoutesList = () => {
             </TokenProtected>
           }
         />
-        <Route path="/nowplaying" element={<NowPlaying />} />
-        <Route path="/popular" element={<Popular />} />
-        <Route path="/search" element={<SearchResult />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/nowplaying" element={
+          <TokenProtected>
+            <NowPlaying />
+          </TokenProtected>
+        } />
+        <Route path="/popular" element={
+          <TokenProtected>
+            <Popular />
+          </TokenProtected>
+        } />
+        <Route path="/search" element={
+          <TokenProtected>
+            <SearchResult />
+          </TokenProtected>
+        } />
+        <Route path="/detail" element={
+          <TokenProtected>
+            <Detail />
+          </TokenProtected>
+        } />
       </Routes>
     </BrowserRouter>
   );

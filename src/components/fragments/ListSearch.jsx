@@ -1,28 +1,35 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDataQuerySearch } from "../../services/GetSearch";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useDataQuerySearch } from '../../services/GetSearch';
+import { useDispatch, useSelector } from 'react-redux';
+import searchPopularMoviesAction from '../../redux/actions/movie/searchPopularAction';
 
 export const ListSearch = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const dataSearch = useLocation();
 
-  const { data: fetchSearch, isSuccess } = useDataQuerySearch({
-    page: 1,
-    query: dataSearch.state.search,
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const querySearch = dataSearch.state.search;
+  const datas = useSelector((state) => state.popularMoviesStore.searchPopularMoviesState);
 
-  const searchResult = fetchSearch?.data || [];
+  useEffect(() => {
+    dispatch(searchPopularMoviesAction(currentPage, querySearch));
+  }, [dispatch, querySearch])
 
   const detailPage = (id) => {
-    navigate("/detail", {
+    navigate('/detail', {
       state: {
         movie_id: id,
       },
     });
   };
 
+  console.log('ListSearch -> dataSearch', dataSearch);
+  console.log('ListSearch -> datas', datas);
+
   const renderSearch = () => {
-    return searchResult.map((value, index) => {
+    return datas?.data?.map((value, index) => {
       return (
         <div
           key={index}
@@ -48,9 +55,7 @@ export const ListSearch = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="text-yellow-500 font-semibold">
-                {value.vote_average.toFixed(1)}
-              </span>
+              <span className="text-yellow-500 font-semibold">{value.vote_average.toFixed(1)}</span>
             </div>
           </div>
         </div>
@@ -60,7 +65,7 @@ export const ListSearch = () => {
 
   return (
     <div className="px-14 pt-6 bg-main text-white">
-      {isSuccess && searchResult.length === 0 ? (
+      {datas?.data?.length === 0 ? (
         <div className="font-bold text-3xl text-center">
           <div className="mb-3">KEYWORD : {dataSearch.state.search}</div>
           <div>== SEARCH NOT FOUND ==</div>
@@ -68,8 +73,7 @@ export const ListSearch = () => {
       ) : (
         <div>
           <div className="mb-6 font-semibold text-xl">
-            Search Result :{" "}
-            <span className="text-secondary">{dataSearch.state.search}</span>
+            Search Result : <span className="text-secondary">{dataSearch.state.search}</span>
           </div>
 
           <div className="grid grid-cols-5 gap-8">{renderSearch()}</div>

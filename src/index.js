@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
+import { ToastContainer } from 'react-toastify';
 
 const queryMovie = new QueryClient();
 
@@ -17,6 +18,7 @@ root.render(
       <QueryClientProvider client={queryMovie}>
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_ID}>
           <ThemeProvider>
+            <ToastContainer />
             <App />
           </ThemeProvider>
         </GoogleOAuthProvider>

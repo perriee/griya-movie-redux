@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDataQueryPopular } from "../../services/GetPopular";
+import { useDispatch, useSelector } from "react-redux";
+import { popularMoviesAction } from "../../redux/actions/movie/popularAction";
 
 export const ListMoviesPopular = () => {
   const navigate = useNavigate();
-
-  const { data: fetchPopular } = useDataQueryPopular();
-
-  const popular = fetchPopular?.data || [];
 
   const detailPage = (id) => {
     navigate("/detail", {
@@ -17,21 +14,34 @@ export const ListMoviesPopular = () => {
     });
   };
 
+  const dataPopularMovies = useSelector((state) => state.popularMoviesStore);
+  console.log('popularMoviesRedux:', dataPopularMovies.popularMoviesState);
+
+  const dispatch = useDispatch();
+
+  const getPopularMovies = () => {
+    dispatch(popularMoviesAction());
+  };
+
+  useEffect(() => {
+    getPopularMovies();
+  }, [dispatch]);
+
   const renderPopular = () => {
-    return popular.slice(10, 20).map((value, index) => {
+    return dataPopularMovies?.popularMoviesState.slice(10, 20).map((movie, index) => {
       return (
         <div
           key={index}
           className="flex flex-col gap-2 cursor-pointer hover:text-secondary"
-          onClick={() => detailPage(value.id)}
+          onClick={() => detailPage(movie.id)}
         >
           <img
-            src={`https://image.tmdb.org/t/p/original/${value.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
             alt=""
             className="object-cover rounded hover:scale-105"
           />
           <div className="flex justify-between items-center font-semibold text-sm">
-            <div>{value.title}</div>
+            <div>{movie.title}</div>
             <div className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +55,7 @@ export const ListMoviesPopular = () => {
                 />
               </svg>
               <span className="text-yellow-500 font-semibold">
-                {value.vote_average}
+                {movie.vote_average}
               </span>
             </div>
           </div>

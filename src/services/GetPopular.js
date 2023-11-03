@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { httpbinar } from '../utils/Http';
 import { API_ENDPOINT } from '../utils/api-endpoint';
 
+// using redux
 export const reduxDataPopularMovies = async () => {
   return await httpbinar.get(API_ENDPOINT.GET_POPULAR);
 };
