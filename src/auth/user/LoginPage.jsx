@@ -103,8 +103,8 @@ export const LoginPage = () => {
         pauseOnHover
         theme="light"
       />
-      <div className="flex h-[35rem] w-[50rem] rounded-xl overflow-hidden shadow-2xl">
-        <div className="w-1/3">
+      <div className="flex h-[35rem] w-[50rem] rounded-xl overflow-hidden">
+        <div className="w-1/3 hidden lg:block">
           <img src={batb} alt="poster" className="object-cover h-full" />
         </div>
         <div className="flex flex-col bg-slate-800 w-2/3 p-10 gap-4">
